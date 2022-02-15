@@ -64,7 +64,7 @@ $TTL    604800
 
 Adicionar:
 ```
-DNS1=172.31.162.100
+DNS1=172.31.0.100
 DNS2=8.8.8.8
 ```
 ◻️ `systemctl restart network` ;
