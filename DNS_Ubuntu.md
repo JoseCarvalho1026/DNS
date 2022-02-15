@@ -12,12 +12,10 @@ forwarders {
         8.8.8.8;
 };
 ```
-◻️ `cp db.local db.DOMAIN` ;
-
-Besides de option of copying the file "db.local", you can choose to simply create `nano db.DOMAIN` and copy the following example:
+Create `nano db.inova.pt` and copy the following example:
 ```
 $TTL    86400
-@               IN SOA  DOMAIN. root (
+@               IN SOA  inova.pt. root (
                         42              ; serial
                         3H              ; refresh
                         15M             ; retry
@@ -30,10 +28,10 @@ central  IN A   192.168.2.150
 ```
 ◻️ `cp db.127 db.IP-Reverse` ;
 
-The same procedure repeats itself for the file "db.IP-Reverse", you can choose to simply create `nano db.IP-Reverse` and copy the following example:
+Create `nano db.31.172` and copy the following example:
 ```
 $TTL    604800
-@       IN      SOA     ns.DOMAIN. root.DOMAIN. (
+@       IN      SOA     ns.inova.pt. root.inova.pt. (
                               2         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
@@ -41,25 +39,13 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL
 ;
 @           IN      NS      ns.
-100.0     IN      PTR     ns.DOMAIN.
-101.1     IN      PTR     www.DOMAIN.
-150.2     IN      PTR     central.DOMAIN.
+100.0     IN      PTR     ns.inova.pt.
+101.1     IN      PTR     www.inova.pt.
+150.2     IN      PTR     central.inova.pt.
 ```
-In case you don't follow any of the previous options, Caso não opte pelas duas opções anteriores, configure the files that were copied:
+◻️ `mv db.inova.pt /var/lib/bind/` ;
 
-◻️ `nano db.DOMAIN` ;
-```
- CTRL + \ (search and procura e substitui: localhost >> DOMAIN)
- Configura a tua forward zone
-```
-◻️ `nano db.IP-R` ;
-```
-CTRL + \ (procura ans replace: localhost >> DOMAIN)
-Configure your reverse zone
-```
-◻️ `mv db.DOMAIN /var/lib/bind/` ;
-
-◻️ `mv db.IP-R /var/lib/bind/` ;
+◻️ `mv db.31.172 /var/lib/bind/` ;
 
 ◻️ `nano named.conf.default-zones` ;
 ```
@@ -72,6 +58,6 @@ Configurar as forward e reverse zones.
 ```
 ◻️ `systemctl restart bind9` ;
 
-◻️ `nslookup SITE IP` ;
+◻️ `nslookup SITE` ;
 
 ◻️ `dig SITE @IP` .
