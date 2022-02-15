@@ -1,4 +1,4 @@
-# DNS
+# DNS installation and configuration
 
 ◻️ `sudo su -` ;
 
@@ -8,53 +8,72 @@
 
 ◻️ `systemctl status named` ;
 
-◻️ `cp /etc/named.conf /etc/named.conf_` para caso de segurança ;
+◻️ `cp /etc/named.conf /etc/named.conf_` in case of security ;
 
 ◻️ `nano /etc/named.conf` ;
+
+Modify:
 ```
 listen... any;
 listen... any;
 dns...enable no;
 dns...tion no;
 ```
+Copy and paste the following below `dns...tion no;`:
 ```
-zone "enta.com" {
-   type master;
-   file "/var/named/db.enta.pt";
+forwarders  {
+      8.8.8.8;
+};
+```
+Copy and paste the following above `include "/etc/named.rfc1912.zones";`:
+```
+zone "enta.pt" {
+        type master;
+        file "/var/named/db.enta.pt";
 };
 zone "31.172.in-addr.arpa" {
-   type master;
-   file "/var/named/db.31.172";
+        type master;
+        file "/var/named/db.31.172";
 };
 ```
 ◻️ `cd /var/named` ;
 
-◻️ `nano db.DOMAIN` ;
+◻️ `nano db.enta.pt` ;
 ```
-$TTL    86400
-@               IN SOA  DOMAIN. root (
-                        42              ; serial
-                        3H              ; refresh
-                        15M             ; retry
-                        1W              ; expiry
-                        1D )            ; minimum
-         IN NS  ns
-ns       IN A   172.31.0.100
-www      IN A   172.31.1.101
-```
-◻️ `nano db.IP-Reverse` ;
-```
-$TTL    604800
-@       IN      SOA     ns.DOMAIN. root.DOMAIN. (
+@       IN      SOA     enta.pt. root.enta.pt. (
                               2         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@           IN      NS      ns.
-100.0     IN      PTR     ns.DOMAIN.
-101.1     IN      PTR     www.DOMAIN.
+@               IN      NS              enta.pt.
+@               IN      A               172.31.0.100
+ns              IN      A               172.31.0.100
+
+control         IN      A               172.31.0.100
+control         IN      A               172.31.1.100
+control         IN      A               172.31.2.100
+dmz             IN      A               172.31.1.101
+www             IN      CNAME           dmz.enta.pt.
+```
+◻️ `nano db.31.172` ;
+```
+$TTL    604800
+@       IN      SOA     enta.pt. root.enta.pt. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      enta.pt.
+100.0   IN      PTR     control.enta.pt.
+100.1   IN      PTR     control.enta.pt.
+100.2 IN      PTR     control.enta.pt.
+
+101.1   IN      PTR     dmz.enta.pt.
+101.1   IN      PTR     www.enta.pt.
 ```
 ◻️ `systemctl restart named` ;
 
@@ -65,10 +84,9 @@ $TTL    604800
 Add:
 ```
 DNS1=172.31.0.100
-DNS2=8.8.8.8
 ```
 ◻️ `systemctl restart network` ;
 
-◻️ `nslookup SITE IP` ;
+◻️ `nslookup SITE` ;
 
 ◻️ `dig SITE @IP` .
