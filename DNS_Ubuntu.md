@@ -60,7 +60,7 @@ Copy the following examples of forward and reverse zone.
 ◻️ `nano named.conf.local` ;
 ```
 Paste the examples of forward and reverse zone that were copied from the other file;
-Configurar as forward e reverse zones.
+Configurate the forward and reverse zones.
 ```
 ◻️ `systemctl restart bind9` ;
 
