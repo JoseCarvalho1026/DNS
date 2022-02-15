@@ -62,7 +62,7 @@ $TTL    604800
 
 ◻️ `nano /etc/sysconfig/network-scripts/ifcfg-eth0` ;
 
-Adicionar:
+Add:
 ```
 DNS1=172.31.0.100
 DNS2=8.8.8.8
