@@ -13,7 +13,7 @@ forwarders {
 };
 ```
 Create `nano db.inova.pt` and copy the following example:
-```
+```                            
 $TTL    86400
 @               IN SOA  inova.pt. root (
                         42              ; serial
@@ -25,6 +25,9 @@ $TTL    86400
 ns       IN A   192.168.0.100
 www      IN A   192.168.1.101
 central  IN A   192.168.2.150
+wazuh    IN A   192.168.2.151
+sales    IN A   192.168.2.152
+marketing IN A   192.168.2.153
 ```
 ◻️ `cp db.127 db.IP-Reverse` ;
 
@@ -42,6 +45,9 @@ $TTL    604800
 100.0     IN      PTR     ns.inova.pt.
 101.1     IN      PTR     www.inova.pt.
 150.2     IN      PTR     central.inova.pt.
+151.2     IN      PTR     wazuh.inova.pt.
+152.2     IN      PTR     sales.inova.pt.
+153.2     IN      PTR     marketing.inova.pt.
 ```
 ◻️ `mv db.inova.pt /var/lib/bind/` ;
 
